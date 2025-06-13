@@ -1,166 +1,68 @@
-Lista de Keywords de Tecnologias (Sugestões)
-Aqui está uma lista com uma variedade de tecnologias que costumam ser discutidas no contexto de desenvolvimento, incluindo algumas mais populares e outras emergentes, com foco no que pode ser relevante para o r/brdev.
+# Hype /brdev scrapper: Análise de Popularidade de Tecnologias
 
-Linguagens de Programação:
+Este projeto realiza web scraping focado no subreddit `r/brdev` e na busca do GitHub para analisar a popularidade e a atividade de diversas tecnologias de programação. O objetivo é comparar o "hype" (menções na comunidade) com a "realidade" (número de projetos ativos), gerando insights para desenvolvedores.
 
-Python
-JavaScript
-Java
-TypeScript
-C#
-Go (Golang)
-PHP
-Ruby
-Swift
-Kotlin
-Rust
-Elixir
-Dart
-Scala
-C++
-Frameworks e Bibliotecas (Frontend):
+Este trabalho foi desenvolvido para a disciplina INE5454 - Tópicos Avançados em Gerência de Dados.
 
-React (React.js)
-Angular
-Vue.js
-Next.js
-Svelte
-jQuery (ainda aparece em sistemas legados)
-Flutter (para UI, também mobile)
-React Native (para mobile)
-Frameworks e Bibliotecas (Backend):
+## 🚀 Funcionalidades
 
-Node.js
-Express (Express.js)
-Spring (Spring Boot)
-Django
-Flask
-Ruby on Rails (Rails)
-Laravel
-.NET (ASP.NET Core)
-NestJS
-FastAPI
-Phoenix
-Bancos de Dados:
+- Scraping de posts e comentários do subreddit `r/brdev`.
+- Coleta de métricas de repositórios do GitHub de forma otimizada para evitar bloqueios por taxa de uso.
+- Geração de um dataset final em formato JSON com mais de 1000 instâncias.
+- Análise dos dados e criação de gráficos para visualização dos resultados.
 
-PostgreSQL (Postgres)
-MySQL
-MongoDB
-SQLite
-Redis
-Microsoft SQL Server
-Oracle Database
-Cassandra
-Elasticsearch
-Cloud & DevOps:
+## 🛠️ Pré-requisitos
 
-AWS (Amazon Web Services)
-Azure (Microsoft Azure)
-GCP (Google Cloud Platform)
-Docker
-Kubernetes (k8s)
-Terraform
-Ansible
-Jenkins
-Git
-GitHub Actions
-GitLab CI
-Outras Ferramentas e Conceitos:
+Antes de começar, garanta que você tem os seguintes softwares instalados:
 
-GraphQL
-REST (RESTful APIs)
-Linux
-Apache Kafka (Kafka)
-RabbitMQ
-Nginx
-Apache (Servidor Web)
-WordPress (ainda muito usado)
-WebAssembly (Wasm)
+- [Python](https://www.python.org/downloads/) (versão 3.10 ou superior)
+- [Poetry](https://python-poetry.org/docs/#installation) (gerenciador de dependências)
 
----------------------------------------------------------------------------------------------------------------------------------------------
+## ⚙️ Instalação e Configuração
 
-Métricas do GitHub (Foco na Scrapabilidade)
-Sim, o número de repositórios contendo a tecnologia é uma métrica interessante e relativamente fácil de raspar através da busca do GitHub.
+Siga os passos abaixo para configurar o ambiente do projeto:
 
-Métricas Sugeridas (Scrapáveis):
+1.  **Clone o repositório:**
 
-Número de Repositórios Públicos:
+    ```bash
+    git clone [https://github.com/seu-usuario/seu-repositorio.git](https://github.com/seu-usuario/seu-repositorio.git)
+    cd seu-repositorio
+    ```
 
-Como Raspar: Usar a busca do GitHub. Ex: https://github.com/search?q=React&type=repositories ou https://github.com/search?q=language:Python&type=repositories. O GitHub exibe o número total de resultados.
-Vantagem: Direto e indica a amplitude de uso/experimentação.
-Desafio: Pode incluir repositórios pequenos, de estudo ou abandonados. Pode ser interessante filtrar por atividade recente se a busca permitir (ex: created:>=2025-01-01 ou pushed:>=2025-01-01).
-Exemplo de URL com filtro de data (push em 2025): https://github.com/search?q=React pushed:>=2025-01-01&type=repositories (Verifique se o filtro "pushed" funciona bem para o ano todo).
+2.  **Instale as dependências:**
+    O Poetry irá ler o arquivo `pyproject.toml`, criar um ambiente virtual e instalar todas as bibliotecas necessárias (`requests`, `beautifulsoup4`, `pandas`, `matplotlib`, `seaborn`, etc.).
+    ```bash
+    poetry install
+    ```
 
+## ▶️ Como Executar
 
----------------------------------------------------------------------------------------------------------------------------------------------
+A execução é dividida em duas etapas principais, mas o scraper principal já está configurado para rodar tudo o que é preciso para a coleta.
 
-Professora, para atender ao requisito de aproximadamente 1000 instâncias no JSON e, ao mesmo tempo, manter o foco na comparação entre a popularidade de tecnologias no r/brdev e suas métricas no GitHub, proponho a seguinte estrutura:
+### Passo 1: Coletar os Dados
 
-Definição da Instância: Cada instância no JSON representará uma ocorrência específica (post ou comentário) no r/brdev onde uma tecnologia da minha lista de keywords for mencionada, a partir de 1º de janeiro de 2025.
+Este comando executa o scraper principal. Ele primeiro varre o Reddit e depois o GitHub. **Este processo é longo e pode levar de 30 a 40 minutos**, dependendo da sua conexão.
 
----------------------------------------------------------------------------------------------------------------------------------------------
+```bash
+poetry run python src/scraper.py
+```
 
-Atributos Sugeridos para cada Instância no JSON:
-id_instancia
+Ao final, ele criará o arquivo `dataset_completo.json` na raiz do projeto.
 
-Tipo: String
-Descrição: Um identificador único que você mesmo vai gerar para esta entrada no JSON (ex: brdev_mention_20250523_0001).
-Simplicidade: Essencial para rastreabilidade.
-url_reddit_fonte
+### Passo 2: Analisar os Dados e Gerar os Gráficos
 
-Tipo: String
-Descrição: A URL direta do post ou comentário específico no r/brdev onde a tecnologia foi mencionada. Este é o atributo obrigatório da URL de onde os dados foram extraídos.
-Simplicidade: Link direto para a fonte primária da menção.
-data_reddit_ocorrencia
+Após a coleta, execute este script para ler o `dataset_completo.json`, analisar os dados e gerar os quatro gráficos de visualização.
 
-Tipo: String (formato ISO 8601, ex: "2025-02-10T15:30:00Z")
-Descrição: Data e hora exatas da publicação do post ou comentário no Reddit.
-Simplicidade: Contexto temporal fundamental, coletado diretamente.
-tipo_item_reddit
+```bash
+poetry run python src/analise.py
+```
 
-Tipo: String
-Descrição: Indica se a menção ocorreu em um "post" ou em um "comentario".
-Simplicidade: Classificação básica da fonte da menção.
-tecnologia_mencionada
+## 📊 Arquivos Gerados
 
-Tipo: String
-Descrição: A tecnologia principal da sua lista de keywords que foi identificada no texto (ex: "Python", "React", "Docker").
-Simplicidade: O "quê" da sua análise.
-snippet_contexto_reddit
+Após a execução dos scripts, os seguintes arquivos serão criados:
 
-Tipo: String
-Descrição: Um pequeno trecho do texto do post/comentário (ex: 100-200 caracteres) onde a tecnologia_mencionada aparece, para dar contexto imediato.
-Simplicidade: Mostra a menção em seu habitat natural, sem precisar guardar o texto inteiro se for muito longo.
-github_metrica_valor
-
-Tipo: Integer (ou Float, dependendo da métrica)
-Descrição: O valor numérico da principal métrica que você coletou do GitHub para a tecnologia_mencionada (ex: o número de repositórios ativos em 2025 para "Python").
-Simplicidade: O dado quantitativo chave do GitHub para comparação.
-github_metrica_descricao
-
-Tipo: String
-Descrição: Uma breve descrição da métrica do GitHub utilizada (ex: "Número de repositórios com push desde 01/01/2025").
-Simplicidade: Clareza sobre o que o github_metrica_valor representa.
-url_github_busca_metrica
-
-Tipo: String
-Descrição: A URL da página de busca do GitHub que foi usada para obter a github_metrica_valor para a tecnologia_mencionada.
-Simplicidade: Rastreabilidade da coleta do dado do GitHub.
-data_coleta_metrica_github
-
-Tipo: String (formato ISO 8601, ex: "2025-05-22T10:00:00Z")
-Descrição: A data em que o github_metrica_valor foi coletado/atualizado. Importante porque essa métrica não é em tempo real com a menção do Reddit, mas sim coletada periodicamente por você.
-Simplicidade: Contexto temporal da "idade" do dado do GitHub.
-data_processamento_instancia
-
-Tipo: String (formato ISO 8601, ex: "2025-05-23T10:47:00Z")
-Descrição: Data e hora em que esta instância específica do JSON foi gerada/processada pelo seu script. (Data atual no momento da geração do registro).
-Simplicidade: Para controle e versionamento da sua coleta.
-score_item_reddit (Atributo extra, se fácil de coletar)
-
-Tipo: Integer
-Descrição: O "score" (upvotes) do post ou comentário no Reddit no momento da coleta.
-Simplicidade: Adiciona uma dimensão de "engajamento" da menção no Reddit.
-
----------------------------------------------------------------------------------------------------------------------------------------------
-
+- `dataset_completo.json`: O dataset final com todas as menções coletadas e enriquecidas com os dados do GitHub.
+- `grafico_1_hype_reddit.png`: Gráfico com o ranking de tecnologias por menções no `r/brdev`.
+- `grafico_2_atividade_github.png`: Gráfico com o ranking de tecnologias por repositórios ativos no GitHub.
+- `grafico_3_tendencia_temporal.png`: Gráfico de linhas mostrando a tendência de menções das Top 5 tecnologias.
+- `grafico_4_ratio_hype.png`: Gráfico comparativo da proporção Hype vs. Atividade.
