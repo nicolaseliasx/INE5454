@@ -10,13 +10,62 @@ HEADERS = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36'
 }
 KEYWORDS_TECNOLOGIAS = [
-    "Python", "JavaScript", "Java", "TypeScript", "C#", "Go", "Golang", "PHP", "Ruby", "Swift", "Kotlin", "Rust", "Elixir", "Dart", "Scala", "C++",
-    "React", "React.js", "Angular", "Vue.js", "Next.js", "Svelte", "jQuery", "Flutter", "React Native",
-    "Node.js", "Express", "Express.js", "Spring", "Spring Boot", "Django", "Flask", "Ruby on Rails", "Rails", "Laravel", ".NET", "ASP.NET Core", "NestJS", "FastAPI", "Phoenix",
-    "PostgreSQL", "Postgres", "MySQL", "MongoDB", "SQLite", "Redis", "Microsoft SQL Server", "Oracle Database", "Cassandra", "Elasticsearch",
+    # --- Linguagens de Programação ---
+    "Python", "JavaScript", "Java", "TypeScript", "C#", "Go", "Golang", "PHP", "Ruby", "Swift", 
+    "Kotlin", "Rust", "Elixir", "Dart", "Scala", "C++", "C", "Clojure", "Haskell", "Lua", "Perl", 
+    "R", "Objective-C", "Solidity",
+
+    # --- Frameworks e Bibliotecas (Frontend) ---
+    "React", "React.js", "Angular", "Vue.js", "Next.js", "Svelte", "jQuery", "Flutter", 
+    "React Native", "Redux", "Zustand", "Vite", "Webpack", "Babel", "Tailwind CSS", "Sass", 
+    "Bootstrap", "Material-UI", "MUI", "Chakra UI", "Ant Design", "Gatsby", "Astro",
+
+    # --- Frameworks e Bibliotecas (Backend) ---
+    "Node.js", "Express", "Express.js", "Spring", "Spring Boot", "Django", "Flask", 
+    "Ruby on Rails", "Rails", "Laravel", ".NET", "ASP.NET Core", "NestJS", "FastAPI", "Phoenix",
+    "Quarkus", "Micronaut", "Symfony", "Celery", "Koa", "Hono",
+
+    # --- ORMs (Mapeamento Objeto-Relacional) ---
+    "Hibernate", "SQLAlchemy", "Prisma", "TypeORM", "Entity Framework", "Dapper",
+
+    # --- Bancos de Dados e Ferramentas de Dados ---
+    "PostgreSQL", "Postgres", "MySQL", "MongoDB", "SQLite", "Redis", "Microsoft SQL Server", 
+    "Oracle Database", "Cassandra", "Elasticsearch", "MariaDB", "Neo4j", "InfluxDB", "Databricks", 
+    "Snowflake", "BigQuery",
+
+    # --- Cloud, DevOps & Infraestrutura ---
     "AWS", "Amazon Web Services", "Azure", "Microsoft Azure", "GCP", "Google Cloud Platform",
-    "Docker", "Kubernetes", "k8s", "Terraform", "Ansible", "Jenkins", "Git", "GitHub Actions", "GitLab CI",
-    "GraphQL", "REST", "RESTful APIs", "Linux", "Apache Kafka", "Kafka", "RabbitMQ", "Nginx", "Apache", "WordPress", "WebAssembly", "Wasm"
+    "Docker", "Kubernetes", "k8s", "Terraform", "Ansible", "Jenkins", "Git", "GitHub Actions", 
+    "GitLab CI", "CircleCI", "Helm", "Prometheus", "Grafana", "Istio", "ArgoCD", "Vercel", 
+    "Netlify", "Heroku", "Cloudflare", "Datadog", "New Relic", "Splunk", "OpenTelemetry",
+
+    # --- Inteligência Artificial / Machine Learning ---
+    "Pandas", "NumPy", "Scikit-learn", "TensorFlow", "PyTorch", "Keras", "Jupyter", "Spark",
+    "Apache Spark", "Kubeflow", "Hugging Face",
+
+    # --- Desenvolvimento Mobile (Além de cross-platform) ---
+    "SwiftUI", "Jetpack Compose", "Xamarin", ".NET MAUI", "Ionic",
+
+    # --- Desenvolvimento de Jogos ---
+    "Unity", "Unreal Engine", "Godot",
+
+    # --- Segurança da Informação (DevSecOps) ---
+    "SonarQube", "Snyk", "OWASP",
+
+    # --- CMS e Plataformas ---
+    "WordPress", "Strapi", "Contentful", "Salesforce",
+
+    # --- Ferramentas de Teste e Qualidade ---
+    "Jest", "Cypress", "Playwright", "Selenium", "Puppeteer", "Testing Library",
+
+    # --- Outras Ferramentas e Conceitos ---
+    "GraphQL", "REST", "RESTful APIs", "Linux", "Apache Kafka", "Kafka", "RabbitMQ", "Nginx", 
+    "Apache", "WebAssembly", "Wasm", "gRPC", "tRPC", "Postman", "Insomnia", "Figma",
+
+    # --- Arquitetura e Metodologias ---
+    "SOLID", "Clean Architecture", "Micro-serviços", "Monolito", "Serverless", "TDD",
+    "Engenharia de Dados", "Ciência de Dados", "Agile", "Scrum", "Kanban",
+    "Jira", "Confluence", "Trello", "Slack", "Notion"
 ]
 DATA_INICIO_FILTRO = datetime.datetime(2024, 1, 1, tzinfo=datetime.timezone.utc)
 
@@ -43,7 +92,7 @@ class RedditScraper:
                     continue
 
                 response.raise_for_status()
-                time.sleep(4) 
+                time.sleep(5) 
                 return BeautifulSoup(response.content, 'lxml')
 
             except requests.exceptions.RequestException as e:
@@ -183,7 +232,7 @@ if __name__ == "__main__":
     try:
         # FASE 1: Coleta rápida de todas as menções do Reddit
         print("\n--- FASE 1: Coletando menções do Reddit ---")
-        current_url, max_pages = "https://old.reddit.com/r/brdev/", 1
+        current_url, max_pages = "https://old.reddit.com/r/brdev/", 50
         for page_num in range(max_pages):
             if not current_url: break
             print(f"\n--- Processando Página do Reddit {page_num + 1} ---")
