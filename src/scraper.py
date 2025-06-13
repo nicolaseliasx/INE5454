@@ -22,25 +22,45 @@ DATA_INICIO_FILTRO = datetime.datetime(2024, 1, 1, tzinfo=datetime.timezone.utc)
 
 # --- 2. Scraper do Reddit ---
 class RedditScraper:
-    """Classe unificada para extrair dados de posts e comentários do old.reddit.com."""
+    """
+    Classe unificada e robusta para extrair dados do old.reddit.com,
+    com lógica de retentativas e tratamento de bloqueios (429).
+    """
     def __init__(self, headers):
         self.headers = headers
         self.base_url = "https://old.reddit.com"
 
     def _get_soup(self, url):
-        try:
-            response = requests.get(url, headers=self.headers, timeout=15)
-            response.raise_for_status()
-            time.sleep(4) # Pausa para não sobrecarregar o Reddit
-            return BeautifulSoup(response.content, 'lxml')
-        except requests.exceptions.RequestException as e:
-            print(f"Erro ao buscar a página {url}: {e}")
-            return None
+        max_tentativas = 5
+        for tentativa in range(max_tentativas):
+            try:
+                print(f"    (Tentativa {tentativa + 1}/{max_tentativas}) Buscando: {url}")
+                response = requests.get(url, headers=self.headers, timeout=30)
+
+                if response.status_code == 429:
+                    print(f"  -> AVISO: Bloqueado pelo Reddit (429). Esperando 10 minutos...")
+                    time.sleep(600)
+                    continue
+
+                response.raise_for_status()
+                time.sleep(4) 
+                return BeautifulSoup(response.content, 'lxml')
+
+            except requests.exceptions.RequestException as e:
+                print(f"  -> ERRO ao buscar a página na tentativa {tentativa + 1}: {e}")
+                if tentativa < max_tentativas - 1:
+                    print("     ...esperando 30 segundos antes de tentar novamente.")
+                    time.sleep(30)
+                else:
+                    print(f"     ...desistindo da URL {url} após {max_tentativas} tentativas.")
+                    return None
+        return None
 
     def get_posts_from_listing_page(self, listing_url):
         print(f"Buscando posts em: {listing_url}")
         soup = self._get_soup(listing_url)
         if not soup: return [], None
+        
         posts_data, post_containers = [], soup.find_all('div', class_='thing')
         for post in post_containers:
             if 'stickied' in post.get('class', []) or 'promoted' in post.get('class', []): continue
@@ -50,13 +70,14 @@ class RedditScraper:
             post_url = post_href if post_href.startswith('http') else self.base_url + post_href
             score_tag, time_tag = post.select_one('div.score.unvoted'), post.find('time')
             posts_data.append({'title': title_tag.get_text(strip=True), 'url': post_url, 'score_str': score_tag.get_text(strip=True) if score_tag else '0', 'date_str': time_tag['datetime'] if time_tag else None})
+        
         next_page_tag = soup.select_one('span.next-button a')
         return posts_data, next_page_tag['href'] if next_page_tag else None
 
     def get_post_and_comments_details(self, post_url):
-        print(f"  -> Extraindo detalhes de: {post_url}")
         soup = self._get_soup(post_url)
         if not soup: return None, []
+        
         post_body_tag = soup.select_one('div.expando .usertext-body')
         post_body = post_body_tag.get_text(separator=' ', strip=True) if post_body_tag else ""
         comments_data, comment_containers = [], soup.select('div.commentarea > .comment')
@@ -64,7 +85,9 @@ class RedditScraper:
             if 'automoderator' in comment.select_one('a.author', '').get_text(strip=True).lower(): continue
             text_tag, time_tag, permalink_tag = comment.select_one('form .usertext-body'), comment.find('time'), comment.select_one('a.bylink')
             comments_data.append({'id_suffix': comment.get('data-fullname', ''), 'url': permalink_tag['href'] if permalink_tag else post_url, 'text': text_tag.get_text(separator=' ', strip=True) if text_tag else "", 'date_str': time_tag['datetime'] if time_tag else None, 'score_str': "0 points"})
+        
         return post_body, comments_data
+
 
 # --- 3. Scraper do GitHub ---
 class GitHubScraper:
@@ -78,7 +101,7 @@ class GitHubScraper:
         url = f"https://github.com/search?q={requests.utils.quote(query)}&type=repositories"
         
         print(f"Buscando métrica para: {tecnologia}...")
-        time.sleep(7) # Pausa longa e essencial para não ser bloqueado
+        time.sleep(7)
 
         try:
             response = requests.get(url, headers=self.headers, timeout=20)
@@ -160,7 +183,7 @@ if __name__ == "__main__":
     try:
         # FASE 1: Coleta rápida de todas as menções do Reddit
         print("\n--- FASE 1: Coletando menções do Reddit ---")
-        current_url, max_pages = "https://old.reddit.com/r/brdev/", 22
+        current_url, max_pages = "https://old.reddit.com/r/brdev/", 1
         for page_num in range(max_pages):
             if not current_url: break
             print(f"\n--- Processando Página do Reddit {page_num + 1} ---")

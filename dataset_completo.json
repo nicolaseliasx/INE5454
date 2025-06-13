@@ -1,1 +1,44 @@
-[]
+[
+  {
+    "id_instancia": "brdev_mention_20250613_1",
+    "url_reddit_fonte": "https://old.reddit.com/r/brdev/comments/1lafnq4/de_iniciante_para_iniciante/",
+    "data_reddit_ocorrencia": "2025-06-13T13:15:47+00:00",
+    "tipo_item_reddit": "post",
+    "tecnologia_mencionada": "JavaScript",
+    "snippet_contexto_reddit": "De Iniciante para iniciante. Tenho estudado, à meses, javascript e lógica de programação e algoritmos por um livro. Eu tenho sido muito feliz de não queimar etapas e so passar ao próximo capitulo quando entendo perfeitamente oque estou fazendo, e pra",
+    "score_item_reddit": 12,
+    "github_metrica_valor": 527783,
+    "github_metrica_descricao": "Número de repositórios com push no último ano",
+    "url_github_busca_metrica": "https://github.com/search?q=%22JavaScript%22%20pushed%3A%3E2024-06-13&type=repositories",
+    "data_coleta_metrica_github": "2025-06-13T20:19:08.209237+00:00",
+    "data_processamento_instancia": "2025-06-13T20:19:08.209547+00:00"
+  },
+  {
+    "id_instancia": "brdev_mention_20250613_2",
+    "url_reddit_fonte": "https://old.reddit.com/r/brdev/comments/1l9u8fx/aws_gcp_cloudflare_supabase_e_firebase_fora_do_ar/",
+    "data_reddit_ocorrencia": "2025-06-12T18:38:38+00:00",
+    "tipo_item_reddit": "post",
+    "tecnologia_mencionada": "GCP",
+    "snippet_contexto_reddit": "AWS, GCP, CloudFlare, Supabase e Firebase fora do ar Aqui eu encerro meu dia de trabalho e vou me preparar para a bomba nuclear",
+    "score_item_reddit": 141,
+    "github_metrica_valor": 17986,
+    "github_metrica_descricao": "Número de repositórios com push no último ano",
+    "url_github_busca_metrica": "https://github.com/search?q=%22GCP%22%20pushed%3A%3E2024-06-13&type=repositories",
+    "data_coleta_metrica_github": "2025-06-13T20:19:00.557911+00:00",
+    "data_processamento_instancia": "2025-06-13T20:19:08.209562+00:00"
+  },
+  {
+    "id_instancia": "brdev_mention_20250613_3",
+    "url_reddit_fonte": "https://old.reddit.com/r/brdev/comments/1l9u8fx/aws_gcp_cloudflare_supabase_e_firebase_fora_do_ar/",
+    "data_reddit_ocorrencia": "2025-06-12T18:38:38+00:00",
+    "tipo_item_reddit": "post",
+    "tecnologia_mencionada": "AWS",
+    "snippet_contexto_reddit": "AWS, GCP, CloudFlare, Supabase e Firebase fora do ar Aqui eu encerro meu dia de trabalho e vou me preparar para a bomba nuclear",
+    "score_item_reddit": 141,
+    "github_metrica_valor": 163729,
+    "github_metrica_descricao": "Número de repositórios com push no último ano",
+    "url_github_busca_metrica": "https://github.com/search?q=%22AWS%22%20pushed%3A%3E2024-06-13&type=repositories",
+    "data_coleta_metrica_github": "2025-06-13T20:18:52.967724+00:00",
+    "data_processamento_instancia": "2025-06-13T20:19:08.209571+00:00"
+  }
+]
