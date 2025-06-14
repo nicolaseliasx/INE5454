@@ -25,10 +25,9 @@ Siga os passos abaixo para configurar o ambiente do projeto:
 1.  **Clone o repositório:**
 
     ```bash
-    git clone [https://github.com/seu-usuario/seu-repositorio.git](https://github.com/seu-usuario/seu-repositorio.git)
-    cd seu-repositorio
+    git clone https://github.com/nicolaseliasx/INE5454.git
+    cd INE5454
     ```
-
 2.  **Instale as dependências:**
     O Poetry irá ler o arquivo `pyproject.toml`, criar um ambiente virtual e instalar todas as bibliotecas necessárias (`requests`, `beautifulsoup4`, `pandas`, `matplotlib`, `seaborn`, etc.).
     ```bash
