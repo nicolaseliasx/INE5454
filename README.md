@@ -40,7 +40,7 @@ A execução é dividida em duas etapas principais, mas o scraper principal já 
 
 ### Passo 1: Coletar os Dados
 
-Este comando executa o scraper principal. Ele primeiro varre o Reddit e depois o GitHub. **Este processo é longo e pode levar de 30 a 40 minutos**, dependendo da sua conexão.
+Este comando executa o scraper principal. Ele primeiro varre o Reddit e depois o GitHub. **Este processo é longo e pode levar de 30 minutos a 1 hora e 30 minutos**, dependendo da sua conexão.
 
 ```bash
 poetry run python src/scraper.py
